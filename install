@@ -60,3 +60,9 @@ echo "Installing the git_remote_branch gem for fast feature branch creating and 
 
 echo "Installing the foreman gem for serving your Rails apps in development mode ..."
   gem install foreman --no-rdoc --no-ri
+
+echo "symlinking files and directories"
+  for x in *
+  do
+    ln -s $x ~/.$x
+  done
