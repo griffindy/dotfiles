@@ -1,0 +1,62 @@
+#!/usr/bin/env zsh
+
+echo "Checking for SSH key, generating one if it doesn't exist ..."
+  [[ -f ~/.ssh/id_rsa.pub ]] || ssh-keygen -t rsa
+
+echo "Copying public key to clipboard. Paste it into your Github account ..."
+  [[ -f ~/.ssh/id_rsa.pub ]] && cat ~/.ssh/id_rsa.pub | pbcopy
+  open https://github.com/account/ssh
+
+echo "Installing Homebrew, a good OS X package manager ..."
+  /usr/bin/ruby -e "$(/usr/bin/curl -fksSL https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb)"
+  brew update
+
+echo "Put Homebrew location earlier in PATH ..."
+  echo "
+# recommended by brew doctor
+export PATH='/usr/local/bin:$PATH'" >> ~/.zshrc
+  source ~/.zshrc
+
+echo "Installing Postgres, a good open source relational database ..."
+  brew install postgres --no-python
+
+echo "Installing ack, a good way to search through files ..."
+  brew install ack
+
+echo "Installing tmux, a good way to save project state and switch between projects ..."
+  brew install tmux
+
+echo "Installing ImageMagick, good for cropping and re-sizing images ..."
+  brew install imagemagick
+
+echo "Installing QT, used by Capybara Webkit for headless Javascript integration testing ..."
+  brew install qt
+
+echo "Installing RVM (Ruby Version Manager) ..."
+  bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
+  echo "
+# RVM
+[[ -s '/Users/`whoami`/.rvm/scripts/rvm' ]] && source '/Users/`whoami`/.rvm/scripts/rvm'" >> ~/.zshrc
+  source ~/.zshrc
+
+echo "Installing Ruby 1.9.2 stable and making it the default Ruby ..."
+  rvm install 1.9.2-p290
+  rvm use 1.9.2 --default
+
+echo "Installing Rails to write and run web applications ..."
+  gem install rails --no-rdoc --no-ri
+
+echo "Installing the Heroku gem to interact with the http://heroku.com API ..."
+  gem install heroku --no-rdoc --no-ri
+
+echo "Installing the Taps gem to push and pull SQL databases between development, staging, and production environments ..."
+  gem install taps --no-rdoc --no-ri
+
+echo "Installing the pg gem to talk to Postgres databases ..."
+  gem install pg --no-rdoc --no-ri
+
+echo "Installing the git_remote_branch gem for fast feature branch creating and deleting ..."
+  gem install git_remote_branch --no-rdoc --no-ri
+
+echo "Installing the foreman gem for serving your Rails apps in development mode ..."
+  gem install foreman --no-rdoc --no-ri
